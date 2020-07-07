@@ -58,3 +58,4 @@ jspm_packages/
 .next
 
 build/
+api/data/
