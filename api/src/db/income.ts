@@ -136,3 +136,21 @@ export const update = (id: string, input: Geld.Income) =>
 
     db.close();
   });
+
+export const remove = (id: string) =>
+  new Promise<boolean>((resolve, reject) => {
+    const db = new sqlite.Database(DATABASE);
+
+    db.run(`DELETE FROM Income WHERE id = $id`, { $id: id }, function (
+      this,
+      err
+    ) {
+      if (err) {
+        reject(err);
+      }
+
+      resolve(true);
+    });
+
+    db.close();
+  });

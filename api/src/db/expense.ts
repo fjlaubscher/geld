@@ -1,4 +1,5 @@
 import sqlite from 'sqlite3';
+import { parseISO } from 'date-fns';
 
 const DATABASE = process.env.DATABASE || 'db-geld';
 
@@ -111,6 +112,24 @@ export const update = (id: string, input: Geld.Expense) =>
         });
       }
     );
+
+    db.close();
+  });
+
+export const remove = (id: string) =>
+  new Promise<boolean>((resolve, reject) => {
+    const db = new sqlite.Database(DATABASE);
+
+    db.run(`DELETE FROM Expense WHERE id = $id`, { $id: id }, function (
+      this,
+      err
+    ) {
+      if (err) {
+        reject(err);
+      }
+
+      resolve(true);
+    });
 
     db.close();
   });

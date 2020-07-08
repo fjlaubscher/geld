@@ -1,34 +1,59 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { Link, Redirect, useParams, useHistory } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { useRecoilValue } from 'recoil';
 
 // state
-import { incomeState } from '../../state/income';
-
-// components
-import IncomeCard from '../../components/income-card';
+import { incomeByIdState } from '../../state/income';
 
 const Income = () => {
-  const income = useRecoilValue(incomeState);
-  const totalIncome = income.reduce(
-    (prev, current) => prev + current.amount,
-    0
-  );
+  const history = useHistory();
+  const { id } = useParams();
+  const [busy, setBusy] = useState(false);
+  const income = useRecoilValue(incomeByIdState(id));
+
+  if (!income) {
+    return <Redirect to="/not-found" />;
+  }
 
   return (
     <>
       <Helmet>
-        <title>Income | Geld</title>
+        <title>{income.description} | Income | Geld</title>
       </Helmet>
       <div className="section">
         <div className="container">
-          <h1 className="title">Income</h1>
-          <h2 className={`subtitle ${totalIncome >= 0 && 'has-text-primary'}`}>
-            R{totalIncome.toLocaleString()}
-          </h2>
-          {income.map((i) => (
-            <IncomeCard key={`income-${i.id}`} income={i} />
-          ))}
+          <h1 className="title">{income.description}</h1>
+          <h2 className="subtitle">{income.date}</h2>
+          <div className="field is-grouped">
+            <p className="control">
+              <Link to={`/income/${income.id}/edit`} className="button">
+                Update
+              </Link>
+            </p>
+            <p className="control">
+              <button
+                className={`button is-danger ${busy && 'is-loading'}`}
+                onClick={async () => {
+                  setBusy(true);
+                  const del = confirm(`Delete ${income.description}?`);
+
+                  if (del) {
+                    const response = await fetch(`/api/income/${income.id}`, {
+                      method: 'DELETE'
+                    });
+
+                    if (response.ok) {
+                      setBusy(false);
+                      history.push('/income');
+                    }
+                  }
+                }}
+              >
+                Delete
+              </button>
+            </p>
+          </div>
         </div>
       </div>
     </>

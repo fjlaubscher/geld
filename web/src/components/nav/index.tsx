@@ -1,8 +1,6 @@
-/* eslint-disable jsx-a11y/click-events-have-key-events */
-/* eslint-disable jsx-a11y/interactive-supports-focus */
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { FaWallet } from 'react-icons/fa';
 
 const Nav = () => {
   const [show, setShow] = useState(false);
@@ -14,21 +12,25 @@ const Nav = () => {
       aria-label="main navigation"
     >
       <div className="navbar-brand">
-        <Link className="navbar-item" to="/">
-          <b>GELD</b>
+        <Link className="navbar-item is-size-4" to="/">
+          <FaWallet className="mr-4" />
         </Link>
-        <a
-          role="button"
-          className={`navbar-burger burger ${show && 'is-active'}`}
+        <button
+          className={`navbar-burger burger button is-primary is-size-4 ${
+            show && 'is-active'
+          }`}
           onClick={() => setShow(!show)}
         >
           <span aria-hidden="true"></span>
           <span aria-hidden="true"></span>
           <span aria-hidden="true"></span>
-        </a>
+        </button>
       </div>
       <div id="navbar" className={`navbar-menu ${show && 'is-active'}`}>
-        <div className="navbar-start">
+        <div className="navbar-end">
+          <Link className="navbar-item" to="/track">
+            Track
+          </Link>
           <Link className="navbar-item" to="/income">
             Income
           </Link>

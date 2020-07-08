@@ -20,6 +20,9 @@ const Home = () => {
     0
   );
 
+  const taxableBackgroundClass =
+    taxableIncome <= 0 ? 'has-background-success' : 'has-background-danger';
+
   return (
     <>
       <Helmet>
@@ -27,28 +30,38 @@ const Home = () => {
       </Helmet>
       <div className="section">
         <div className="container">
-          <h1 className="title">Taxable</h1>
-          <h2
-            className={`subtitle ${
-              taxableIncome <= 0 ? `has-text-primary` : `has-text-danger`
-            }`}
-          >
-            R{taxableIncome.toLocaleString()}
-          </h2>
-          <Link
-            to="/income"
-            className="tile is-vertical notification is-primary"
-          >
-            <p className="title">Income</p>
-            <p className="subtitle">R{totalIncome.toLocaleString()}</p>
-          </Link>
-          <Link
-            to="/expenses"
-            className="tile is-vertical notification is-danger"
-          >
-            <p className="title">Expenses</p>
-            <p className="subtitle">R{totalExpenses.toLocaleString()}</p>
-          </Link>
+          <h1 className="title">
+            Geld
+            <Link className="button is-primary is-pulled-right" to="/track">
+              Track
+            </Link>
+          </h1>
+          <div className="columns">
+            <div className="column">
+              <div className={`box ${taxableBackgroundClass}`}>
+                <p className="title has-text-white">Taxable</p>
+                <p className="subtitle has-text-white">
+                  R{taxableIncome.toLocaleString()}
+                </p>
+              </div>
+            </div>
+            <div className="column">
+              <Link to="/income" className="box">
+                <p className="title has-text-primary">Income</p>
+                <p className="subtitle has-text-primary">
+                  R{totalIncome.toLocaleString()}
+                </p>
+              </Link>
+            </div>
+            <div className="column">
+              <Link to="/expenses" className="box">
+                <p className="title has-text-primary">Expenses</p>
+                <p className="subtitle has-text-primary">
+                  R{totalExpenses.toLocaleString()}
+                </p>
+              </Link>
+            </div>
+          </div>
         </div>
       </div>
     </>

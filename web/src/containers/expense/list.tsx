@@ -23,11 +23,7 @@ const Expenses = () => {
       <div className="section">
         <div className="container">
           <h1 className="title">Expenses</h1>
-          <h2
-            className={`subtitle ${totalExpenses >= 0 && 'has-text-primary'}`}
-          >
-            R{totalExpenses.toLocaleString()}
-          </h2>
+          <h2 className="subtitle">R{totalExpenses.toLocaleString()}</h2>
           {expenses.map((e) => (
             <ExpenseCard key={`income-${e.id}`} expense={e} />
           ))}
