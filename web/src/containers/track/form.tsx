@@ -3,6 +3,7 @@ import { Form as FinalForm, Field } from 'react-final-form';
 import { FORM_ERROR } from 'final-form';
 
 // components
+import FileUpload from '../../components/file-upload';
 import Input from '../../components/input';
 
 import { required } from './validation';
@@ -12,28 +13,26 @@ interface FormFields {
   description: string;
   amount: string;
   kind: 'expense' | 'income';
-  attachment?: string;
 }
 
 const Form = () => (
   <FinalForm
-    onSubmit={async (
-      { date, description, amount, kind, attachment }: FormFields,
-      form
-    ) => {
-      const body = {
-        date,
-        description,
-        amount: parseFloat(amount),
-        attachment
-      };
+    initialValues={{ kind: 'expense' }}
+    onSubmit={async ({ date, description, amount, kind }: FormFields, form) => {
+      const files = (document.getElementById('attachment') as HTMLInputElement)
+        ?.files;
+      const file = files?.item(0) as File;
+
+      const body = new FormData();
+      body.append('date', date);
+      body.append('description', description);
+      body.append('amount', amount);
+      body.append('attachment', file);
+
       try {
         const response = await fetch(`/api/${kind}`, {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(body)
+          body
         });
 
         if (response.ok) {
@@ -89,13 +88,18 @@ const Form = () => (
           </label>
           <div className="select is-fullwidth">
             <Field id="kind" name="kind" component="select">
-              <option value="expense" selected>
-                Expense
-              </option>
+              <option value="expense">Expense</option>
               <option value="income">Income</option>
             </Field>
           </div>
         </div>
+        <Field
+          id="attachment"
+          name="attachment"
+          label="Attachment"
+          component={FileUpload}
+          validate={required}
+        />
         <button
           type="submit"
           className={`button is-fullwidth is-primary ${

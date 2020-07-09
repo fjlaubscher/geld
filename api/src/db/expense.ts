@@ -1,5 +1,4 @@
 import sqlite from 'sqlite3';
-import { parseISO } from 'date-fns';
 
 const DATABASE = process.env.DATABASE || 'db-geld';
 

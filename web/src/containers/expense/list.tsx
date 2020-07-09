@@ -18,7 +18,7 @@ const Expenses = () => {
   return (
     <>
       <Helmet>
-        <title>Uitgawes | Geld</title>
+        <title>Expenses | Geld</title>
       </Helmet>
       <div className="section">
         <div className="container">

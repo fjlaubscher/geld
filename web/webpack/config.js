@@ -88,8 +88,8 @@ module.exports = {
     isProduction
       ? new WorkboxPlugin.GenerateSW({
           swDest: 'sw.js',
-          clientsClaim: true,
-          skipWaiting: true
+          skipWaiting: true,
+          cleanupOutdatedCaches: true
         })
       : new ReactRefreshWebpackPlugin()
   ]
