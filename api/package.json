@@ -6,6 +6,7 @@
   "scripts": {
     "start": "tsc && node build/index",
     "debug": "tsc && node --inspect build/index",
+    "build": "tsc",
     "lint": "eslint -c .eslintrc src"
   },
   "author": "Francois Laubscher",

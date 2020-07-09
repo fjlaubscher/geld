@@ -30,18 +30,13 @@ const Form = () => (
       body.append('attachment', file);
 
       try {
-        const response = await fetch(`/api/${kind}`, {
+        await fetch(`/api/${kind}`, {
           method: 'POST',
           body
         });
-
-        if (response.ok) {
-          // reset form to track more
-          form.reset();
-          return true;
-        } else {
-          return { [FORM_ERROR]: `Unable to track ${kind}.` };
-        }
+        // reset form to track more
+        form.reset();
+        return true;
       } catch (ex) {
         return { [FORM_ERROR]: `Unable to track ${kind}.` };
       }
