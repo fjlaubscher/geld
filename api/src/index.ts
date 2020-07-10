@@ -6,6 +6,7 @@ dotenv.config();
 // routers
 import expenseRouter from './routes/expense';
 import incomeRouter from './routes/income';
+import authRouter from './routes/auth';
 
 // data
 import { init } from './db';
@@ -17,6 +18,7 @@ app.use(bodyParser.json());
 // routes
 app.use('/api/expense', expenseRouter);
 app.use('/api/income', incomeRouter);
+app.use('/api/', authRouter);
 
 app.get('/', (req, res) => {
   res.send(`Listening on localhost:${PORT}`);

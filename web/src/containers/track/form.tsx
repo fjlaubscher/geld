@@ -15,13 +15,21 @@ interface FormFields {
   kind: 'expense' | 'income';
 }
 
-const Form = () => (
+interface Props {
+  onSubmit: (
+    type: 'expense' | 'income',
+    tracked: Geld.Income | Geld.Expense
+  ) => void;
+}
+
+const Form = ({ onSubmit }: Props) => (
   <FinalForm
     initialValues={{ kind: 'expense' }}
     onSubmit={async ({ date, description, amount, kind }: FormFields) => {
-      const files = (document.getElementById('attachment') as HTMLInputElement)
-        ?.files;
-      const file = files?.item(0) as File;
+      const fileInput = document.getElementById(
+        'attachment'
+      ) as HTMLInputElement;
+      const file = fileInput?.files?.item(0) as File;
 
       const body = new FormData();
       body.append('date', date);
@@ -30,11 +38,12 @@ const Form = () => (
       body.append('attachment', file);
 
       try {
-        await fetch(`/api/${kind}`, {
+        const response = await fetch(`/api/${kind}`, {
           method: 'POST',
           body
         });
-        // reset form to track more
+        const { data } = await response.json();
+        onSubmit(kind, data);
         return true;
       } catch (ex) {
         console.error(ex);
@@ -46,13 +55,12 @@ const Form = () => (
       submitting,
       pristine,
       submitError,
-      submitSucceeded,
-      valid
+      valid,
+      form
     }) => (
-      <form onSubmit={handleSubmit}>
-        {submitSucceeded && (
-          <div className="notification is-success">Tracked.</div>
-        )}
+      <form
+        onSubmit={(values) => handleSubmit(values)?.then(() => form.reset())}
+      >
         {submitError && (
           <div className="notification is-danger">{submitError}</div>
         )}

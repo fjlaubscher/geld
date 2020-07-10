@@ -37,3 +37,5 @@ declare namespace NodeJS {
     readonly PORT: string;
   }
 }
+
+declare module 'react-otp-input';

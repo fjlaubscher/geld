@@ -3,6 +3,7 @@ import { Route, Switch } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 
 import Layout from '../components/layout';
+import ProtectedRoute from './protected-route';
 
 // lazy loaded containers
 const Home = lazy(() => import('./home'));
@@ -22,12 +23,12 @@ const App = () => (
     <Suspense fallback={<progress className="progress is-primary" max="100" />}>
       <Layout>
         <Switch>
-          <Route path="/" component={Home} exact />
-          <Route path="/track" component={Track} exact />
-          <Route path="/income/:id" component={Income} exact />
-          <Route path="/income" component={IncomeList} exact />
-          <Route path="/expense/:id" component={Expense} exact />
-          <Route path="/expenses" component={ExpenseList} exact />
+          <ProtectedRoute path="/" component={Home} exact />
+          <ProtectedRoute path="/track" component={Track} exact />
+          <ProtectedRoute path="/income/:id" component={Income} exact />
+          <ProtectedRoute path="/income" component={IncomeList} exact />
+          <ProtectedRoute path="/expense/:id" component={Expense} exact />
+          <ProtectedRoute path="/expenses" component={ExpenseList} exact />
           <Route path="/health" component={Health} exact />
           <Route component={NotFound} />
         </Switch>

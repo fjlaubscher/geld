@@ -31,12 +31,3 @@ export const incomeByIdState = selectorFamily<Geld.Income, string>({
     return data as Geld.Income;
   }
 });
-
-export const taxableIncomeState = selector<number>({
-  key: 'taxableIncome',
-  get: async () => {
-    const response = await fetch(`/api/income/taxable`);
-    const { data } = await response.json();
-    return data as number;
-  }
-});

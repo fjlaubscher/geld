@@ -14,4 +14,9 @@ declare namespace Geld {
     amount: number;
     attachment: string;
   }
+
+  interface Auth {
+    id: number;
+    token: string;
+  }
 }

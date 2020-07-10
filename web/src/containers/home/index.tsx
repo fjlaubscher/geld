@@ -4,11 +4,10 @@ import { Link } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 
 // state
-import { incomeState, taxableIncomeState } from '../../state/income';
+import { incomeState } from '../../state/income';
 import { expenseState } from '../../state/expense';
 
 const Home = () => {
-  const taxableIncome = useRecoilValue(taxableIncomeState);
   const income = useRecoilValue(incomeState);
   const totalIncome = income.reduce(
     (prev, current) => prev + current.amount,
@@ -20,6 +19,7 @@ const Home = () => {
     0
   );
 
+  const taxableIncome = totalIncome - totalExpenses;
   const taxableBackgroundClass =
     taxableIncome <= 0 ? 'has-background-success' : 'has-background-danger';
 
