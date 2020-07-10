@@ -18,7 +18,7 @@ interface FormFields {
 const Form = () => (
   <FinalForm
     initialValues={{ kind: 'expense' }}
-    onSubmit={async ({ date, description, amount, kind }: FormFields, form) => {
+    onSubmit={async ({ date, description, amount, kind }: FormFields) => {
       const files = (document.getElementById('attachment') as HTMLInputElement)
         ?.files;
       const file = files?.item(0) as File;
@@ -35,9 +35,9 @@ const Form = () => (
           body
         });
         // reset form to track more
-        form.reset();
         return true;
       } catch (ex) {
+        console.error(ex);
         return { [FORM_ERROR]: `Unable to track ${kind}.` };
       }
     }}

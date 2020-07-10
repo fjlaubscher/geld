@@ -1,6 +1,6 @@
 import React from 'react';
 import { FieldRenderProps } from 'react-final-form';
-import { FaFile } from 'react-icons/fa';
+import { FaUpload } from 'react-icons/fa';
 
 const FileUpload = ({
   input,
@@ -13,7 +13,7 @@ const FileUpload = ({
       {labelText}
     </label>
     <div className="control">
-      <div className="file">
+      <div className="file has-name is-fullwidth">
         <label className="file-label">
           <input
             {...input}
@@ -24,10 +24,11 @@ const FileUpload = ({
           />
           <span className="file-cta">
             <span className="file-icon">
-              <FaFile />
+              <FaUpload />
             </span>
             <span className="file-label">Choose a file…</span>
           </span>
+          {input.value && <span className="file-name">{input.value}</span>}
         </label>
       </div>
     </div>

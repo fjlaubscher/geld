@@ -1,6 +1,6 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState } from 'recoil';
 
 // state
 import { incomeState } from '../../state/income';
@@ -9,7 +9,7 @@ import { incomeState } from '../../state/income';
 import IncomeCard from '../../components/income-card';
 
 const Income = () => {
-  const income = useRecoilValue(incomeState);
+  const [income, setIncome] = useRecoilState(incomeState);
   const totalIncome = income.reduce(
     (prev, current) => prev + current.amount,
     0
@@ -25,7 +25,14 @@ const Income = () => {
           <h1 className="title">Income</h1>
           <h2 className="subtitle">R{totalIncome.toLocaleString()}</h2>
           {income.map((i) => (
-            <IncomeCard key={`income-${i.id}`} income={i} />
+            <IncomeCard
+              key={`income-${i.id}`}
+              income={i}
+              onDelete={() => {
+                const filtered = income.filter((x) => x.id !== i.id);
+                setIncome(filtered);
+              }}
+            />
           ))}
         </div>
       </div>
