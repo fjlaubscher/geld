@@ -2,7 +2,7 @@
 
 # Getting Started
 
-Please read the README files for each package contained within this lerna repo.
+Please read the README files for each package contained within this repo.
 
 - [API](packages/api/README.md)
 - [Web UI](packages/web/README.md)
